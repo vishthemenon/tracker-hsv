@@ -11,8 +11,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/aruco.hpp>
 
-#include "Tracker.h"
-#include "camera-calibration/CVCalibration.h"
+#include "../tracker-base/Tracker.h"
+#include "../camera-calibration/CVCalibration.h"
 
 using namespace std;
 using namespace cv;
