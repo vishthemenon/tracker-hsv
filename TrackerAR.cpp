@@ -15,7 +15,7 @@ int TrackerAR::getPose(Mat& frame, Vec3d& tVec, Vec3d& rVec) {
   aruco::detectMarkers(frame, markerDict, markerCorners, markerIds);
   aruco::estimatePoseSingleMarkers(markerCorners, arucoSquareDimension, cameraMatrix, distCoeffs, rotationVec,
                                    translationVec);
-  if(!markerIds.empty()) {
+  if(!markerIds.empty() && markerIds[0] <= 4) {
     //    TODO: CHECK FOR MARKER ID MATCH
     tVec = translationVec[0];
     rVec = rotationVec[0];
