@@ -1,15 +1,15 @@
-#include "TrackerAR.h"
+#include "TrackerARB.h"
 
 #include <iostream>
 
 using namespace std;
 using namespace cv;
 
-TrackerAR::TrackerAR(CVCalibration& cvl, float _arucoSquareDimension) : Tracker(cvl) {
+TrackerARB::TrackerARB(CVCalibration& cvl, float _arucoSquareDimension) : Tracker(cvl) {
   arucoSquareDimension = _arucoSquareDimension;
 }
 
-int TrackerAR::getPose(Mat& frame, Vec3d& tVec, Vec3d& rVec) {
+int TrackerARB::getPose(Mat& frame, Vec3d& tVec, Vec3d& rVec) {
 //  namedWindow("Camera Feed", WINDOW_AUTOSIZE);
   vector<Vec3d> translationVec, rotationVec;
   aruco::detectMarkers(frame, markerDict, markerCorners, markerIds);
