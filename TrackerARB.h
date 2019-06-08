@@ -24,7 +24,6 @@ class TrackerARB : public Tracker {
   int markersX = 2;
   int markersY = 2;
   bool showRejected = false;
-  Vec3d correction = {0,0,0};
   int inputwidth = 640;
   int inputheight = 480;
   const double pi = atan(1) * 4;
