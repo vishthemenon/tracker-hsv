@@ -76,6 +76,6 @@ int main(int argc, char *argv[]) {
   }
   
   imwrite(out, boardImage);
-  
+  std::cout << "Done\n";
   return 0;
 }
