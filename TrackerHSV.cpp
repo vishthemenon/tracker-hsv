@@ -21,6 +21,6 @@ int TrackerHSV::getPose(Mat &frame, Vec3d &tVec, Vec3d &rVec) {
 
 bool TrackerHSV::detectLandingPad(Mat& frame) {
  
-  return (!markerIds.empty());
+  return false;
 }
 
