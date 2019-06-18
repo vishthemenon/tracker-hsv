@@ -12,17 +12,17 @@ using namespace cv;
 
 TrackerHSV::TrackerHSV(CVCalibration &cvl, bool showFrame)
     : Tracker(cvl, showFrame) {
-  getObjectPoints(420.f, 594.f);
+  getObjectPoints(1470.f, 1782.f);
 }
 
 int TrackerHSV::getPose(Mat &frame, Vec3d &tVec, Vec3d &rVec) {
   int detectedBoard = 0;
-  cerr << "Detected pad" << endl;
+//  cerr << "Detected pad" << endl;
 
   
   solvePnP(objectCorners, markerCorners, cameraMatrix, distCoeffs, rVec, tVec);
   drawFrameAxes(frame, cameraMatrix, distCoeffs, rVec, tVec, 5);
-  cerr << tVec << endl;
+//  cerr << tVec << endl;
   return 1;
 }
 
@@ -39,7 +39,7 @@ bool TrackerHSV::detectLandingPad(Mat &frame) {
   
   dilate(thresh, thresh, getStructuringElement(MORPH_ELLIPSE, Size(2 * strength, 2 * strength)));
   erode(thresh, thresh, getStructuringElement(MORPH_ELLIPSE, Size(2 * strength, 2 * strength)));
-  
+  imshow("binary", thresh);
   GaussianBlur(thresh, thresh, Size(7, 7), 2.0, 2.0);
   Canny(thresh, edges, 66.0, 133.0, 3);
   
@@ -52,22 +52,23 @@ bool TrackerHSV::detectLandingPad(Mat &frame) {
           Point(20, 440), // Coordinates
           FONT_HERSHEY_COMPLEX_SMALL, // Font
           1.0, // Scale. 2.0 = 2x bigger
-          Scalar(200, 0, 100), // BGR Color
+          Scalar(200, 100, 100), // BGR Color
           1, // Line Thickness (Optional)
           LINE_AA); // Anti-alias (Optional)
   imshow("Edges", edges); //show the thresholded image
-
-//  for (size_t i = 0; i < lines.size(); i++) {
-//    float rho = lines[i][0], theta = lines[i][1];
-//    Point pt1, pt2;
-//    double a = cos(theta), b = sin(theta);
-//    double x0 = a * rho, y0 = b * rho;
-//    pt1.x = cvRound(x0 + 1000 * (-b));
-//    pt1.y = cvRound(y0 + 1000 * (a));
-//    pt2.x = cvRound(x0 - 1000 * (-b));
-//    pt2.y = cvRound(y0 - 1000 * (a));
-//    line(tmp, pt1, pt2, Scalar(0, 255, 0), 3, LINE_AA);
-//  }
+  Mat linee = frame.clone();
+  for (size_t i = 0; i < lines.size(); i++) {
+    float rho = lines[i][0], theta = lines[i][1];
+    Point pt1, pt2;
+    double a = cos(theta), b = sin(theta);
+    double x0 = a * rho, y0 = b * rho;
+    pt1.x = cvRound(x0 + 1000 * (-b));
+    pt1.y = cvRound(y0 + 1000 * (a));
+    pt2.x = cvRound(x0 - 1000 * (-b));
+    pt2.y = cvRound(y0 - 1000 * (a));
+    line(linee, pt1, pt2, Scalar(0, 255, 0), 3, LINE_AA);
+  }
+  imshow("hough", linee);
   
   
   vector<Point2f> intersections;
